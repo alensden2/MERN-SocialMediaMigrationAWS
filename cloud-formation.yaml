@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  KeyPairName:
+    Type: String
+    Description: Name of the key pair for EC2 instances
+    Default: backend
+
+Resources:
+  EC2Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0fc5d935ebf8bc3bc
+      InstanceType: t2.micro
+      KeyName: backend
+      SecurityGroups:
+        - !Ref EC2SecurityGroup
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          apt update -y
+          apt install -y nginx
+          apt install -y nodejs
+          apt install -y npm
+          npm install -g pm2
+          git clone https://github.com/alensden2/MERN-SocialMediaMigrationAWS-Backend.git
+          cd MERN-SocialMediaMigrationAWS-Backend
+          pm2 start server.js
+
+  EC2SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security group for EC2 instances
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
