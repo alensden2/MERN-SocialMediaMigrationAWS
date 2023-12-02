@@ -11,6 +11,7 @@ import ProfilePage from '../containers/ProfilePage';
 import SettingsPage from '../containers/SettingsPage';
 import SignupPage from '../containers/SignupPage';
 import NotFound from './NotFound';
+import AdminAnalytics from '../containers/AdminAnalytics';
 
 initAnalytics('UA-126201794-1');
 export const history = createHistory();
@@ -24,6 +25,7 @@ const Root = () => (
     <Route path="/following" component={FollowingPage} />
     <Route path="/discover" component={DiscoverPage} />
     <Route path="/settings" component={SettingsPage} />
+    <Route path="/adminAnalytics" component={AdminAnalytics} />
     <Route component={NotFound} />
   </Switch>
 );
